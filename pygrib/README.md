@@ -5,13 +5,17 @@ unusual Docker install:
   ```docker build -t pygrib-layer .```
 
 ## Layer Setup
-Run the docker container
-```docker run -ti pygrib-layer bash```
+1. Run the docker container<br>
+```
+docker run -ti pygrib-layer bash
+```
 
-Inside container:
-login to `aws-login.py` and select role OR set `AWS_ACCESS_KEY_ID` and `AWS_SECREET_ACCESS_KEY`
+2. Inside container:<br>
+login to `aws-login.py` and select role <br>
+OR <br>
+set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 
-run `upload.sh`
+3. run `upload.sh`
 ```
 bash-4.2# ./upload.sh
 upload: ./lambda.zip to s3://bucket-name/deployments/pygrib-layer.zip
@@ -32,7 +36,7 @@ If your function has additional package dependencies, follow the deployment READ
 
 
 ## References
-Helpful guides used in making this:
-https://qrunch.net/@predora005/entries/seAWWAEiSmeVy7Xb?ref=qrunch
-https://github.com/difu/eccodes-lambda
+Helpful guides used in making this:<br>
+https://qrunch.net/@predora005/entries/seAWWAEiSmeVy7Xb?ref=qrunch<br>
+https://github.com/difu/eccodes-lambda<br>
 https://github.com/jswhit/pygrib
