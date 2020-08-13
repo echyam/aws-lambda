@@ -71,8 +71,8 @@ RUN mkdir /.aws
 
 # somehow get your credentials in here, and connect to aws profile name
 RUN echo "[$AWS_PROFILE]" >> /.aws/credentials
-RUN echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> /.aws/credentials
-RUN echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> /.aws/credentials
+RUN echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> /.aws/credentials
+RUN echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> /.aws/credentials
 
 RUN echo "aws s3 cp lambda.zip s3://$BUCKET_NAME/deployments/pygrib-layer.zip --profile $AWS_PROFILE" >> upload.sh
 RUN chmod u+x upload.sh
