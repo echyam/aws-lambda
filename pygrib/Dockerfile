@@ -10,7 +10,8 @@ ENV AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 ENV BUCKET_NAME=$BUCKET_NAME
 
 ENV AWS_DEFAULT_REGION us-west-2
-ENV AWS_PROFILE saml                    # set this to whatever your AWS profile is named
+# set this to whatever your AWS profile is named
+ENV AWS_PROFILE saml
 
 # copy in requirements if you want additional packages
 # COPY ./requirements.txt .
