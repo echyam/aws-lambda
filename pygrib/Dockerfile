@@ -3,9 +3,10 @@ FROM lambci/lambda:build-python3.7
 USER root
 
 ENV AWS_DEFAULT_REGION us-west-2
+ENV AWS_PROFILE saml                    # set this to whatever your AWS profile is named
 
-# copy in requirements
-COPY ./requirements.txt .
+# copy in requirements if you want additional packages
+# COPY ./requirements.txt .
 
 # RUN yum -y update
 RUN yum -y install sudo wget
@@ -53,7 +54,6 @@ RUN rm pygrib.zip
 RUN cd python/lib/python3.7/site-packages && rm -r *.dist-info __pycache__
 
 # create lambda.zip from pip virtualenv packages
-# RUN virtualenv deactivate
 RUN mkdir package && mv python/ package/python
 RUN cd package && zip -r9 ${OLDPWD}/lambda.zip .
 
@@ -61,8 +61,9 @@ RUN cd package && zip -r9 ${OLDPWD}/lambda.zip .
 RUN pip install boto requests bs4
 
 RUN mkdir /.aws
-COPY ./aws-login.py /var/task/aws-login.py
 
-RUN echo "aws s3 cp lambda.zip s3://bucket-name/deployments/pygrib-layer.zip --profile saml" >> upload.sh
+# somehow get your credentials in here, and connect to aws profile name
+
+RUN echo "aws s3 cp lambda.zip s3://bucket-name/deployments/pygrib-layer.zip --profile $AWS_PROFILE" >> upload.sh
 RUN chmod u+x upload.sh
 RUN ls
