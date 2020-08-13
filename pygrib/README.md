@@ -7,19 +7,13 @@ unusual Docker install:
 ## Layer Setup
 1. Run the docker container<br>
 ```
-docker run -ti pygrib-layer bash
+docker run -ti pygrib-layer \
+  --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+  --env AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+  --env BUCKET_NAME=$BUCKET_NAME
 ```
 
-2. Inside container:<br>
-login to `aws-login.py` and select role <br>
-OR <br>
-set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
-
-3. run `upload.sh`
-```
-bash-4.2# ./upload.sh
-upload: ./lambda.zip to s3://bucket-name/deployments/pygrib-layer.zip
-```
+2. Set upload ZIP from s3 to lambda layers
 
 ## Lambda Setup
 - use `pygrib` lambda layer (includes `numpy` and `pyproj` dependencies) with **python3.7**
