@@ -7,10 +7,11 @@ unusual Docker install:
 ## Layer Setup
 1. Run the docker container<br>
 ```
-docker run -ti pygrib-layer \
+docker run -ti \
   --env AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   --env AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-  --env BUCKET_NAME=$BUCKET_NAME
+  --env BUCKET_NAME=$BUCKET_NAME \
+  eyam/pygrib-lambda-layer
 ```
 
 2. Set upload ZIP from s3 to lambda layers

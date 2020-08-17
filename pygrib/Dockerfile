@@ -2,13 +2,14 @@ FROM lambci/lambda:build-python3.7
 
 USER root
 
-ENV AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-ENV AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-ENV BUCKET_NAME=$BUCKET_NAME
+# set these env vars when running container
+ENV AWS_ACCESS_KEY_ID=''
+ENV AWS_SECRET_ACCESS_KEY=''
+ENV BUCKET_NAME=''
 
 ENV AWS_DEFAULT_REGION us-west-2
 # set this to whatever your AWS profile is named
-ENV AWS_PROFILE saml
+# ENV AWS_PROFILE saml
 
 # copy in requirements if you want additional packages
 # COPY ./requirements.txt .
@@ -65,15 +66,11 @@ RUN cd package && zip -r9 ${OLDPWD}/lambda.zip .
 # install packages for running aws login script
 RUN pip install boto requests bs4
 
-RUN mkdir /.aws
+RUN mkdir /root/.aws
 
-# somehow get your credentials in here, and connect to aws profile name
-RUN echo "[$AWS_PROFILE]" >> /.aws/credentials
-RUN echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> /.aws/credentials
-RUN echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> /.aws/credentials
-
-RUN echo "aws s3 cp lambda.zip s3://$BUCKET_NAME/deployments/pygrib-layer.zip --profile $AWS_PROFILE" >> upload.sh
+# get your credentials in here, and connect to aws profile name
+RUN echo "echo \"aws s3 cp lambda.zip s3://\$BUCKET_NAME/deployments/pygrib-layer.zip\"" >> upload.sh
+RUN echo "aws s3 cp lambda.zip s3://\$BUCKET_NAME/deployments/pygrib-layer.zip" >> upload.sh
 RUN chmod u+x upload.sh
-RUN ls
 
 ENTRYPOINT ["bash","upload.sh"]
